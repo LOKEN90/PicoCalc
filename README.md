@@ -8,3 +8,5 @@ Lander.bas - a lunar lander game inspired by a game that I enjoyed playing on my
 Mathtools.bas - A work in progress, probably always will be, that allows for mathematical formulas to be solved for different variables. Continued work will mainly be adding more formulae, improving UI, and adding diagrams to their respective formula.
 
 Constants.bas - A new program that I am working on and is in its early stages. It allows for a text file named constants.txt, located in the same directory as the program file, to be searched and to return the value of the searched for constant.  
+
+Constants.txt - List of constants for use with constants.bas. Must be in same directory on picocalc. More constants will be uploaded later on this is just a test batch.
