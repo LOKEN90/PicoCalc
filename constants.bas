@@ -1,6 +1,5 @@
 ' === PicoCalc Searchable Constants (universal version) ===
 ' Reads constants.txt (format: NAME,VALUE)
-' Fuzzy search, case-insensitive, no TRIM$/UCASE$/LCASE$
 
 OPTION EXPLICIT
 
