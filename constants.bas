@@ -1,5 +1,6 @@
-' === PicoCalc Searchable Constants (universal version) ===
-' Reads constants.txt (format: NAME,VALUE)
+' === PicoCalc Searchable Constants ===
+' Jesse Miller (2025) - Version 1.0
+' Reads constants.txt (format: NAME,VALUE) NOTE: .txt file must be saved in same directory as the .bas file
 
 OPTION EXPLICIT
 
