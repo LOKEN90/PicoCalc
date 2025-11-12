@@ -1,5 +1,6 @@
 ' ============================================
 ' CYBER-LUNAR DESCENT SIMULATOR v1.3
+' Jesse Miller (2025)
 ' For PicoCalc (MMBASIC)
 ' ============================================
 
@@ -147,3 +148,4 @@ Print "        ========================"
 Print "        >> SESSION TERMINATED <<"
 Print "        ========================"
 End
+
