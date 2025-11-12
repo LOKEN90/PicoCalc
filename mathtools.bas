@@ -1,5 +1,7 @@
 ' ==========================
-'   MATH TOOLBOX
+' MATH TOOLBOX
+' Jesse Miller (2025) - Version 1.2
+' Equation solver for PicoCalc 
 ' ==========================
 
 Option BASE 1
@@ -355,3 +357,4 @@ Print "Result = "; result
 Print : Input "Press Enter to return...", dummy$
 Return
 End If
+
