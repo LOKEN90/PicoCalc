@@ -15,6 +15,7 @@ Print
 Print "1. Quadratic Equation"
 Print "2. Pythagorean Theorem"
 Print "3. Ohm's Law"
+Print "4. Sphere Volume"
 Print "0. Exit"
 Print
 Input "Select option: ", mainChoice
@@ -25,6 +26,8 @@ ElseIf mainChoice = 2 Then
     GoSub PythagoreanMenu
 ElseIf mainChoice = 3 Then
     GoSub OhmsMenu
+ElseIf mainChoice = 4 Then
+    GoSub SphereVolMenu
 ElseIf mainChoice = 0 Then
     End
 End If
@@ -308,6 +311,57 @@ Print : Input "Press Enter to return...", dummy$
 Return
 
 
+' =================
+' Volume of Sphere
+' =================
+
+SphereVolMenu: 'GoSub name
+Do
+CLS
+Print "Calculate Volume of Sphere"
+Print "-------------"
+Print "V=4/3(pi)r^3"
+Print 
+Print "Solve for:
+Print "1. Volume (V)"
+Print "2. Radius (r)"
+Print "0. Back"
+Input "Choice: ", choice
+If choice = 1 Then GoSub SVol
+If choice = 2 Then GoSub SRad
+If choice = 0 Then Exit Do
+Loop
+Return
+
+
+' --------------------------
+' Volume of Sphere
+' --------------------------
+SVol:
+CLS
+Print "Solve for volume of sphere of known radius"
+Print
+input "Radius (r): ", r
+'V=4/3 * pi * r^3
+V = 4/3 *  3.14159265358979323846 * r^3
+Print "Result = "; V
+Print : Input "Press Enter to return...", dummy$
+Return
+
+
+' --------------------------
+' Radius of Sphere
+' --------------------------
+SRad:
+CLS
+Print "Solve for radius of sphere of known volume"
+Print
+Input "Volume (V): ", V
+r = (3/4 * V * 1/3.14159265358979323846)^(1/3)
+Print "Result = "; r
+Print : Input "Press Enter to return...", dummy$
+Return
+
 
 ' below is basic layout for new eq
 
@@ -357,4 +411,5 @@ Print "Result = "; result
 Print : Input "Press Enter to return...", dummy$
 Return
 End If
+
 
