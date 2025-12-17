@@ -1,415 +1,331 @@
-' ==========================
+'=====================================
 ' MATH TOOLBOX
-' Jesse Miller (2025) - Version 1.2
-' Equation solver for PicoCalc 
-' ==========================
+' Jesse Miller (2025) - Version 2.0
+' Equation solver for PicoCalc
+'=====================================
 
-Option BASE 1
+Option base 1
+Option Explicit
 
-Do
-CLS
-Print "            |==============|"
-Print "            | MATH TOOLBOX |"
-Print "            |==============|"
-Print
-Print "1. Quadratic Equation"
-Print "2. Pythagorean Theorem"
-Print "3. Ohm's Law"
-Print "4. Sphere Volume"
-Print "0. Exit"
-Print
-Input "Select option: ", mainChoice
-
-If mainChoice = 1 Then
-    GoSub QuadraticMenu
-ElseIf mainChoice = 2 Then
-    GoSub PythagoreanMenu
-ElseIf mainChoice = 3 Then
-    GoSub OhmsMenu
-ElseIf mainChoice = 4 Then
-    GoSub SphereVolMenu
-ElseIf mainChoice = 0 Then
-    End
-End If
-Loop
-
-End
+Dim M$(100)
+Dim Integer IdX, choice, MainCount
 
 
-' --------------------------
-' Quadratic Equation Menu
-' --------------------------
-QuadraticMenu:
+MainMenu
+
+'--- Main Menu ---
+Sub MainMenu
+
+  M$(1) = "Pythagorean Theorem"
+  M$(2) = "Ohm's Law"
+  M$(3) = "Quadratic Equation"
+  M$(4) = "Shutdown"
+  
+  MainCount = 4
 
 Do
 CLS
-Print "          Quadratic Equation"
-Print "          ------------------"
-Print "          ax^2 + bx + c = 0"
-Print
-Print "Solve for:"
-Print "1. x (roots)"
-Print "2. a"
-Print "3. b"
-Print "4. c"
-Print "0. Back"
-Print "======="
-Input "Choice: ", quadChoice
+  ' Syntax: choice = Fn_Menu(Title$, MenuArray$(), TotalItems)
+  choice = Fn_Menu("--- EQUATION SOLVER ---", M$(), MainCount)
 
-If quadChoice = 1 Then GoSub SolveX
-If quadChoice = 2 Then GoSub SolveA
-If quadChoice = 3 Then GoSub SolveB
-If quadChoice = 4 Then GoSub SolveC
-If quadChoice = 0 Then Exit Do
+  Select Case choice
+    Case 1
+      Pythag
+    Case 2
+      OhmsLaw
+    Case 3
+      Quadratic
+    Case 4
+      cls
+      End
+  End Select
 Loop
-
-Return
-
-
-' --------------------------
-' Solve for x (roots)
-' --------------------------
-SolveX:
-CLS
-Print "Solve for x (roots)"
-Print
-Input "a = ", a
-Input "b = ", b
-Input "c = ", c
-
-disc = b^2 - 4*a*c
-
-If disc < 0 Then
-    Print
-    Print "No real roots"
-Else
-    x1 = (-b + Sqr(disc)) / (2*a)
-    x2 = (-b - Sqr(disc)) / (2*a)
-    Print
-    Print "x1 = "; x1
-    Print "x2 = "; x2
-End If
-
-Print : Input "Press Enter to return...", dummy$
-Return
+End Sub
 
 
-' --------------------------
-' Solve for a (given x,b,c)
-' --------------------------
-SolveA:
-CLS
-Print "Solve for a"
-Print
-Input "x = ", x
-Input "b = ", b
-Input "c = ", c
+'====================================
+'Equation Subroutines
+'====================================
 
-' a = -(bx + c) / x^2
-If x = 0 Then
-    Print
-    Print "Error: x cannot be 0"
-Else
-    a = -(b*x + c) / (x^2)
-    Print
-    Print "a = "; a
-End If
+'Pythagorean Theorem Solver
 
-Print : Input "Press Enter to return...", dummy$
-Return
+Sub Pythag
 
+  M$(1) = "Side A or B"
+  M$(2) = "Hypoteneuse (C)"
+  M$(3) = "MAIN MENU"
 
-' --------------------------
-' Solve for b (given x,a,c)
-' --------------------------
-SolveB:
-CLS
-Print "Solve for b"
-Print
-Input "x = ", x
-Input "a = ", a
-Input "c = ", c
+  local float a, b, c
+ 
+  do
+    CLS
+    Print @(10, 40) "Solve for:"
+    Choice = Fn_Menu("PYTHAGOREAN THEOREM", M$(), 3)
+    CLS
 
-' b = -(ax^2 + c) / x
-If x = 0 Then
-    Print
-    Print "Error: x cannot be 0"
-Else
-    b = -(a*x^2 + c) / x
-    Print
-    Print "b = "; b
-End If
+    Select Case Choice
+      Case 1
+        ' a = sqr(c^2 - b^2)
+        Input "Enter length of known side"; b
+        Input "Enter length of hypoteneuse"; c
+        a = Sqr(c^2 - b^2)
+        Print
+        Print "Unknown side: "; a
+      Case 2
+        ' c = sqr(a^2 + b^2)
+        Input "Enter length side A"; a
+        Input "Enter length side B"; b
+        c = Sqr(a^2 + b^2)
+        Print
+        Print "Hypoteneuse length: "; c
+      Case 3
+        MainMenu
+    End Select
 
-Print : Input "Press Enter to return...", dummy$
-Return
+    Pause 1000
+    Print "Press ESC to go back"
 
-
-' --------------------------
-' Solve for c (given x,a,b)
-' --------------------------
-SolveC:
-CLS
-Print "Solve for c"
-Print
-Input "x = ", x
-Input "a = ", a
-Input "b = ", b
-
-' c = -(ax^2 + bx)
-c = -(a*x^2 + b*x)
-Print
-Print "c = "; c
-
-Print : Input "Press Enter to return...", dummy$
-Return
+    Do
+      If Inkey$ = Chr$(27) Then Exit do
+    Loop
+  loop
+End Function
 
 
-' ==========================
-' Pythagorean Theorem Solver
-' ==========================
-
-PythagoreanMenu:
-Do
-CLS
-Print "          Pythagorean Theorem"
-Print "          -------------------"
-Print "            a^2 + b^2 = c^2"
-Print
-Print "Solve for: "
-Print "1. c (Hypotenuse)"
-Print "2. a or b (Side)"
-Print "0. Back"
-Print "======="
-Input "Choice: ", pythChoice
-
-If pythChoice = 1 Then GoSub SolvePc
-If pythChoice = 2 Then GoSub SolvePab
-If pythChoice = 0 Then Exit Do
-Loop
-Return
-
-
-' --------------------------
-' Solve For Hypotenuse
-' --------------------------
-SolvePc:
-CLS
-Print "Solve for HYPOTENUSE"
-Print
-Input "Side a = ", a
-Input "Side b = ", b
-' c = sqr(a^2 + b^2)
-c = Sqr(a^2 + b^2)
-Print
-Print "Hypotenuse = "; c
-Print
-Print : Input "Press Enter to return...", dummy$
-Return
-
-
-' --------------------------
-' Side Solver
-' --------------------------
-SolvePab:
-CLS
-Print "Solve for unknown side (a or b)"
-Print
-Input "Known Side = ", b
-Input "Hypotenuse = ", c
-' a = sqr(c^2 - b^2)
-a = Sqr(c^2 - b^2)
-If a = 0 Then
-Print
-Print "Not a Triangle!!! Check Values"
-Else
-Print
-Print "Unknown Side = "; a
-End If
-Print : Input "Press Enter to return...", dummy$
-Return
-
-
-
-' ==========================
 ' Ohm's Law Solver
-' ==========================
 
-OhmsMenu:
-Do
-CLS
-Print "               Ohm's Law"
-Print "               ---------"
-Print "               V = I * R"
-Print
-Print "Solve for: "
-Print "1. V (Voltage)"
-Print "2. I (Current)"
-Print "3. R (Resistance)"
-Print "0. Back"
-Print "======="
-Input "Choice: ", ohmChoice
+Sub OhmsLaw
 
-If ohmChoice = 1 Then GoSub SolveOv
-If ohmChoice = 2 Then GoSub SolveOi
-If ohmChoice = 3 Then GoSub SolveOr
-If ohmChoice = 0 Then Exit Do
-Loop
-Return
+  M$(1) = "Voltage (volts)"
+  M$(2) = "Current (amperes)"
+  M$(3) = "Resistance (Ohm's)"
+  M$(4) = "MAIN MENU"
+  
+  local float v,i,r
 
+  do
+    CLS
+    Print @(10, 40) "Solve for:"
+    Choice = Fn_Menu("OHM'S LAW", M$(), 4)
+    CLS
 
-' --------------------------
-' Solve For Voltage
-' --------------------------
-SolveOv:
-CLS
-Print "Solve For Voltage"
-Print
-Input "Current (I) = ", I
-Input "Resistance (R) = ", R
-' V = I * R
-V = I * R
-Print
-Print "Voltage (V) = "; V
-Print
-Print : Input "Press Enter to return...", dummy$
-Return
+    Select Case Choice
+      Case 1
+        ' V = I * R
+        Input "Current in amperes"; I
+        Input "Resistance in Ohm's"; R
+        V = I * R
+        Print
+        Print "Voltage: "; V; " volts"
+      Case 2
+        ' I = V / R 
+        Input "Voltage in volts"; V
+        Input "Resistance in Ohm's"; R
+        I = V / R
+        Print
+        Print "Current: "; I; " amperes"
+      Case 3
+        ' R = V / I
+        Input "Voltage in volts"; V
+        input "Current in amperes"; I
+        R = V / I
+        print
+        print "Resistance: "; R; " Ohm's"
+      case 4
+        MainMenu
+    End Select
 
+    Pause 1000
+    Print "Press ESC to go back"
 
-' --------------------------
-' Solve For Current
-' --------------------------
-SolveOi:
-CLS
-Print "Solve For Current"
-Print
-Input "Voltage (V) = ", V
-Input "Resistance (R) = ", R
-' I = V / R
-I = V / R
-Print
-Print "Current (I) = "; I
-Print
-Print : Input "Press Enter to return...", dummy$
-Return
+    Do
+      If Inkey$ = Chr$(27) Then exit do
+    Loop
+  loop
+End Function
 
 
-' --------------------------
-' Solve For Resistance
-' --------------------------
-SolveOr:
-CLS
-Print "Solve For Resistance"
-Print
-Input "Voltage (V) = ", V
-Input "Current (I) = ", I
-' R = V / I
-R = v / I
-Print
-Print "Resistance (R) = "; R
-Print
-Print : Input "Press Enter to return...", dummy$
-Return
+' Quadratic Equation/Roots Solver
+
+Sub Quadratic
+
+  M$(1) = "A"
+  M$(2) = "B"
+  M$(3) = "C"
+  M$(4) = "X (roots)"
+  M$(5) = "MAIN MENU"
+  
+  local float a,b,c,x,x1,x2,disc
+
+  do
+    CLS
+    Print @(10, 40) "Solve for:"
+    Choice = Fn_Menu("QUADRATIC EQUATION", M$(), 5)
+  CLS
+
+    Select Case Choice
+      Case 1
+        ' a = -(bx + c) / x^2)
+        Input "Enter value of B"; b
+        Input "Enter value of C"; c
+        input "Enter value of x"; x
+        a = -(b*x + c) / x^2
+        Print
+        Print "Value of A: "; a
+      Case 2
+        ' b = -(ax^2 + c) / x
+        Input "Enter value for A"; a
+        Input "Enter value for C"; c
+        input "Enter value for X"; x
+        b = -(a*x^2 + c) / x
+        Print
+        Print "Value of B: "; b
+      Case 3
+        ' c = -(ax^2 + bx)
+        Input "Enter value for A"; a
+          Input "Enter value for B"; b
+        input "Enter value for an X"; x
+        c = -(a*x^2 + b*x)
+        Print
+        Print "Value of C: "; c
+      case 4
+        ' x1 = (-b + Sqr(disc)) / (2*a)
+        ' x2 = (-b - Sqr(disc)) / (2*a)
+        input "Enter value of A"; a
+        input "Enter value of B"; b
+        input "Enter value of C"; c
+        ' Check for complex or imaginary roots
+        disc = b^2 - 4 * a * c
+        if disc < 0 Then
+          print
+          print "No Real Roots"
+        else
+          x1 = (-b + Sqr(disc)) / (2*a)
+          x2 = (-b - Sqr(disc)) / (2*a)
+          print
+          print "Value for x1: "; x1
+          Print "Value for x2: "; x2
+        end if
+      case 5
+        MainMenu
+    End Select
+
+    Pause 1000
+    Print "Press ESC to go back"
+
+    Do
+      If Inkey$ = Chr$(27) Then exit do
+    Loop
+  loop
+End Function
 
 
-' =================
-' Volume of Sphere
-' =================
+'=====================================
+' THE REUSABLE ENGINE
+'=====================================
 
-SphereVolMenu: 'GoSub name
-Do
-CLS
-Print "Calculate Volume of Sphere"
-Print "-------------"
-Print "V=4/3(pi)r^3"
-Print 
-Print "Solve for:
-Print "1. Volume (V)"
-Print "2. Radius (r)"
-Print "0. Back"
-Input "Choice: ", choice
-If choice = 1 Then GoSub SVol
-If choice = 2 Then GoSub SRad
-If choice = 0 Then Exit Do
-Loop
-Return
+Function Fn_Menu(T$, M$(), Count)
+  Local Selected = 1, Offset = 1, Key, I, Y
+  Const Visible = 12 ' Number of displayed lines
+  Const TX = 20, TY = 60, LH = 20 ' Text X, Text Y, Line Height
 
+  Do
+    Text 160, 15, T$, "CM", 1, 1, RGB(WHITE), RGB(BLUE)'Title placement
 
-' --------------------------
-' Volume of Sphere
-' --------------------------
-SVol:
-CLS
-Print "Solve for volume of sphere of known radius"
-Print
-input "Radius (r): ", r
-'V=4/3 * pi * r^3
-V = 4/3 *  3.14159265358979323846 * r^3
-Print "Result = "; V
-Print : Input "Press Enter to return...", dummy$
-Return
+  ' Draw Menu Items
+    For I = 1 To Visible
+      Idx = Offset + I - 1
+      Y = TY + (I - 1) * LH
 
+      If Idx <= Count Then
+        If Idx = Selected Then
+        ' Draw a highlight bar
 
-' --------------------------
-' Radius of Sphere
-' --------------------------
-SRad:
-CLS
-Print "Solve for radius of sphere of known volume"
-Print
-Input "Volume (V): ", V
-r = (3/4 * V * 1/3.14159265358979323846)^(1/3)
-Print "Result = "; r
-Print : Input "Press Enter to return...", dummy$
-Return
+        Colour RGB(BLACK), RGB(GREEN)
+        Else
+        Colour RGB(WHITE), RGB(BLACK)
+        End If
+        Print @(TX, Y) M$(Idx)
 
+      End If
+    Next I
 
-' below is basic layout for new eq
+    ' Handle Input
+    Do : Key = Asc(Inkey$) : Loop Until Key > 0
 
-If 0 Then
-' =================
-' Title of Equztion
-' =================
-
-PythagoreanMenu: 'GoSub name
-Do
-CLS
-Print "Equation description/title"
-Print "-------------"
-Print "1. Solver/Operation 1"
-Print "2. Solver/Operation 2"
-Print "0. Back"
-
-Input "Choice: ", choice
-
-If choice = 1 Then GoSub NewSolver1
-If choice = 2 Then GoSub NewSolver2
-If choice = 0 Then Exit Do
-Loop
-Return
+    Select Case Key
+      Case 128 ' Up
+        If Selected > 1 Then
+          Selected = Selected - 1
+          If Selected < Offset Then Offset = Offset - 1
+        End If
+      Case 129 ' Down
+        If Selected < Count Then
+          Selected = Selected + 1
+          If Selected > Offset + Visible - 1 Then Offset = Offset + 1
+        End If
+      Case 13 ' Enter
+        Fn_Menu = Selected
+        Colour RGB(WHITE), RGB(BLACK) ' Reset colors
+        Exit Function
+    End Select
+  Loop
+End Function
 
 
-' --------------------------
-' Solver/Operation 1
-' --------------------------
-NewSolver1:
-CLS
-Print "Solver 1 description"
-' <-- put your calculations here -->
-Print "Result = "; result
-Print : Input "Press Enter to return...", dummy$
-Return
 
+'======================================
+' Sub template for new equation
+'======================================
+/*
+Sub 'sub name
 
-' --------------------------
-' Solver/Operation 2
-' --------------------------
-NewSolver2:
-CLS
-Print "Solver 2 description"
-' <-- put your calculations here -->
-Print "Result = "; result
-Print : Input "Press Enter to return...", dummy$
-Return
-End If
+  M$(1) = "menu item 1"
+  M$(2) = "menu item 2"
+  M$(3) = "menu item 3"
+  M$(4) = "menu item 4"
+  
+  local float 'declare variables needed for the equation
+  
+  do
+    CLS
+    Print @(10, 40) "Solve for:"
+    Choice = Fn_Menu("Equation title", M$(), 4)' 4 = #of menu items
+    CLS
 
+    Select Case Choice
+      Case 1
+        'case 1 equation
+        Input ""; I ' Ask for knowns and put approriate variables for I and R
+        Input ""; R
+        V = I * R ' Equation in the form that works for desired variable
+        Print
+        Print "Voltage: "; V; " volts" ' Print answer however you want
+        'REPEAT AS NECESSARY FFOR EEACH VARIABLE AND EQUATION
+      Case 2
+        ' I = V / R 
+        Input "Voltage in volts"; V
+        Input "Resistance in Ohm's"; R
+        I = V / R
+        Print
+        Print "Current: "; I; " amperes"
+      Case 3
+        ' R = V / I
+        Input "Voltage in volts"; V
+        input "Current in amperes"; I
+        R = V / I
+        print
+        print "Resistance: "; R; " Ohm's"
+      case 4
+        MainMen ' return to main menu
+    End Select
 
+    Pause 1000
+    Print "Press ESC to go back"
+
+    Do
+      If Inkey$ = Chr$(27) Then exit do ' Returns to sub menu
+    Loop
+  loop
+End Function
+*/
