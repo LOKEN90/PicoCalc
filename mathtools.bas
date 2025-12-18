@@ -1,6 +1,6 @@
 '=====================================
 ' MATH TOOLBOX
-' Jesse Miller (2025) - Version 2.0
+' Jesse Miller (2025) - Version 2.1.0
 ' Equation solver for PicoCalc
 '=====================================
 
@@ -335,4 +335,5 @@ Sub 'sub name
   loop
 End Function
 */
+
 
