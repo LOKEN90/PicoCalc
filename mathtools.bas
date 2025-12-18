@@ -227,11 +227,19 @@ End Function
 Function Fn_Menu(T$, M$(), Count)
   Local Selected = 1, Offset = 1, Key, I, Y
   Const Visible = 12 ' Number of displayed lines
-  Const TX = 20, TY = 60, LH = 20 ' Text X, Text Y, Line Height
+  Const TX = 20, TY = 52, LH = 16 ' Text X, Text Y, Line Height
 
+    ' Draw Menu Boxes
+    RBox 0, 0, 320, 30, 8, &H00FF00 'Top Outline
+    rbox 5, 5, 310, 20, 5, &H00FF00, &H00CC00 'Top main
+    rbox 0, 32, 320, 266, 8, &H00FF00, &H003300 'Center Menu Display
+    rbox 0, 300, 320, 20, 8,  &H00FF00, &H00CC00 'Footer
+  
+    Text 160, 16, T$, "CM", 4, 1, &H000000, &H00CC00 'Title placement
+    'Footer Text
+    text 160, 310, "*** [UP/DN]=Navigate  [ENTER]=Select ***", "CM", 7, 1, &H000000, &H00CC00
+ 
   Do
-    Text 160, 15, T$, "CM", 1, 1, RGB(WHITE), RGB(BLUE)'Title placement
-
   ' Draw Menu Items
     For I = 1 To Visible
       Idx = Offset + I - 1
@@ -240,13 +248,11 @@ Function Fn_Menu(T$, M$(), Count)
       If Idx <= Count Then
         If Idx = Selected Then
         ' Draw a highlight bar
-
-        Colour RGB(BLACK), RGB(GREEN)
+        Colour &H000000, &H00FF00
         Else
-        Colour RGB(WHITE), RGB(BLACK)
+        Colour &H00FF00, &H003300
         End If
         Print @(TX, Y) M$(Idx)
-
       End If
     Next I
 
@@ -266,7 +272,7 @@ Function Fn_Menu(T$, M$(), Count)
         End If
       Case 13 ' Enter
         Fn_Menu = Selected
-        Colour RGB(WHITE), RGB(BLACK) ' Reset colors
+        Colour &H00FF00, &H000000 ' Reset colors
         Exit Function
     End Select
   Loop
@@ -329,3 +335,4 @@ Sub 'sub name
   loop
 End Function
 */
+
